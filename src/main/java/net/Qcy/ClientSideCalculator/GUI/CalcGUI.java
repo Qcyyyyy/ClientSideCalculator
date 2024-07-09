@@ -6,14 +6,10 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.objecthunter.exp4j.Expression;
 import net.objecthunter.exp4j.ExpressionBuilder;
 
 public class CalcGUI extends Screen {
-
-    private static final ResourceLocation BACKGROUND_TEXTURE = new ResourceLocation("clientsidecalculator",
-            "textures/gui/calculator.png");
 
     String ans = "";
 
