@@ -1,5 +1,6 @@
 package net.Qcy.ClientSideCalculator.GUI;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
@@ -13,6 +14,8 @@ public class CalcGUI extends Screen {
 
     private static final ResourceLocation BACKGROUND_TEXTURE = new ResourceLocation("clientsidecalculator",
             "textures/gui/calculator.png");
+
+    String ans = "";
 
     public CalcGUI() {
         super(Component.literal("Calculator"));
@@ -158,6 +161,13 @@ public class CalcGUI extends Screen {
                 .build();
         this.addRenderableWidget(buttonDiv);
 
+        Button buttonExp = new Button.Builder(Component.literal("^"),
+                btn -> calcField.setValue(calcField.getValue() + "^"))
+                .pos(zW + 22, zH - 88)
+                .size(20, 20)
+                .build();
+        this.addRenderableWidget(buttonExp);
+
         Button buttonClear = new Button.Builder(Component.literal("C"),
                 btn -> calcField.setValue(""))
                 .pos(zW + 66, zH - 88)
@@ -171,6 +181,21 @@ public class CalcGUI extends Screen {
                 .size(20, 20)
                 .build();
         this.addRenderableWidget(buttonBackSp);
+
+        Button buttonAns = new Button.Builder(Component.literal("AN"),
+                btn -> calcField.setValue(calcField.getValue() + ans))
+                .pos(zW - 22, zH)
+                .size(20, 20)
+                .build();
+        this.addRenderableWidget(buttonAns);
+
+        Button buttonPrint = new Button.Builder(Component.literal("Print"),
+                btn -> Minecraft.getInstance().player.sendSystemMessage(Component.literal(ans)))
+                .pos(zW - 74, zH)
+                .size(50, 20)
+                .build();
+        this.addRenderableWidget(buttonPrint);
+
     }
 
     @Override
@@ -198,7 +223,8 @@ public class CalcGUI extends Screen {
             // zeroes from whole numbers Eg 28.0 to 28
             String resString = (Math.abs(result - Math.round(result)) < 1e-10 ? String.format("%.0f", result)
                     : String.valueOf(result));
-            return resString.replaceAll("\\.0+$", "");
+            ans = resString.replaceAll("\\.0+$", "");
+            return ans;
         } catch (Exception e) {
             return "ERROR";
         }
